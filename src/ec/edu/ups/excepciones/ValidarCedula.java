@@ -9,6 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValidarCedula {
+public class ValidarCedula extends Exception{
+
+    public ValidarCedula() {
+        
+        super("La cedula no es valida");
+        
+    }
     
 }

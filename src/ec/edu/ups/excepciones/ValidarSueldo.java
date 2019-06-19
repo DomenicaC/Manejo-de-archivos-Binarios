@@ -9,6 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValidarSalario {
+public class ValidarSueldo extends Exception{
+
+    public ValidarSueldo() {
+    
+        super("E; sueldo debe ser diferecte de 0");
+        
+    }
     
 }

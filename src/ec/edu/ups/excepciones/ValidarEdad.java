@@ -9,6 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValidarEdad {
+public class ValidarEdad extends Exception{
+
+    public ValidarEdad() {
+        
+        super("La edad es incorrecta \n la edad debe ser ente 20 y 35");
+        
+    }
     
 }
