@@ -9,6 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValidarNombre {
-    
+public class ValidarNombre extends Exception {
+
+    public ValidarNombre() {
+
+        super("El nombre es menor a 50 caracteres");
+
+    }
+
 }

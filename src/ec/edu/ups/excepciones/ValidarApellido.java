@@ -9,8 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValdidarApellido {
-    
-    
-    
+public class ValidarApellido extends Exception {
+
+    public ValidarApellido() {
+
+        super("El apellido es menor a 50 caracteres");
+
+    }
+
 }

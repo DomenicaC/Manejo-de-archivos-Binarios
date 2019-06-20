@@ -9,6 +9,12 @@ package ec.edu.ups.excepciones;
  *
  * @author Domenica Cañizares
  */
-public class ValidarFechaNac {
-    
+public class ValidarFechaNac extends Exception {
+
+    public ValidarFechaNac() {
+
+        super("La fecha de nacimiento es incorrecta no contiene 10 digitos o algun caracter esta mal ingresado");
+
+    }
+
 }

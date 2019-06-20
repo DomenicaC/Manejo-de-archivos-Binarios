@@ -5,10 +5,15 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.excepciones.ValidarApellido;
 import ec.edu.ups.excepciones.ValidarCedula;
 import ec.edu.ups.excepciones.ValidarCelular;
 import ec.edu.ups.excepciones.ValidarEdad;
+import ec.edu.ups.excepciones.ValidarFechaNac;
+import ec.edu.ups.excepciones.ValidarNombre;
 import ec.edu.ups.excepciones.ValidarSueldo;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -41,18 +46,60 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
+    public void setNombre(String nombre) throws ValidarNombre {
 
-        this.nombre = nombre;
+        boolean v = false;
+
+        if (v != true) {
+
+            while (nombre.length() < 50) {
+
+                nombre = nombre + "_";
+                //v = false;
+                System.out.println(nombre);
+
+            }
+
+            this.nombre = nombre;
+            v = true;
+
+        } else {
+
+            //v = true;
+            throw new ValidarNombre();
+
+        }
+
     }
 
     public String getApellido() {
         return apellido;
     }
 
-    public void setApellido(String apellido) {
+    public void setApellido(String apellido) throws ValidarApellido {
 
-        this.apellido = apellido;
+        boolean v = false;
+
+        if (v != true) {
+
+            while (nombre.length() < 50) {
+
+                nombre = nombre + "_";
+                //v = false;
+                System.out.println(nombre);
+
+            }
+
+            this.apellido = apellido;
+            v = true;
+
+        } else {
+
+            //v = true;
+            throw new ValidarApellido();
+
+        }
+
     }
 
     public String getCedula() {
@@ -104,11 +151,83 @@ public class Persona {
     }
 
     public String getFechaNac() {
+
         return fechaNac;
+
     }
 
-    public void setFechaNac(String fechaNac) {
-        this.fechaNac = fechaNac;
+    public void setFechaNac(String fechaNac) throws ValidarFechaNac {
+
+        String resp = "/";
+        boolean corr = false;
+
+        if (fechaNac.length() == 10) {
+            if (String.valueOf(fechaNac.charAt(2)).equals(resp) && String.valueOf(fechaNac.charAt(5)).equals(resp)) {
+                //dia
+                if (fechaNac.charAt(0) > 0 && fechaNac.charAt(0) < 4) {
+                    if (fechaNac.charAt(1) > 0 && fechaNac.charAt(1) < 9) {
+                        //mes
+                        if (fechaNac.charAt(3) == 1) {
+                            if (fechaNac.charAt(4) > 0 && fechaNac.charAt(4) < 3) {
+                                //año
+                                if (fechaNac.charAt(6) > 0 && fechaNac.charAt(6) < 3) {
+                                    if (fechaNac.charAt(6) == 1) {
+                                        if (fechaNac.charAt(7) >= 0 && fechaNac.charAt(7) <= 9) {
+                                            if (fechaNac.charAt(8) >= 0 && fechaNac.charAt(8) <= 9) {
+                                                if (fechaNac.charAt(9) >= 0 && fechaNac.charAt(9) <= 9) {
+                                                    this.fechaNac = fechaNac;
+                                                } else {
+                                                    throw new ValidarFechaNac();
+                                                }
+                                            } else {
+                                                throw new ValidarFechaNac();
+                                            }
+                                        } else {
+                                            throw new ValidarFechaNac();
+                                        }
+                                        ///
+                                    } else if (fechaNac.charAt(6) == 2) {
+                                        if (fechaNac.charAt(7) == 0) {
+                                            if (fechaNac.charAt(8) >= 0 && fechaNac.charAt(8) <= 9) {
+                                                if (fechaNac.charAt(9) >= 0 && fechaNac.charAt(9) <= 9) {
+                                                    this.fechaNac = fechaNac;
+                                                } else {
+                                                    throw new ValidarFechaNac();
+                                                }
+                                            } else {
+                                                throw new ValidarFechaNac();
+                                            }
+                                        } else {
+                                            throw new ValidarFechaNac();
+                                        }
+
+                                    } else {
+                                        throw new ValidarFechaNac();
+                                    }
+
+                                } else {
+                                    throw new ValidarFechaNac();
+                                }
+
+                            } else {
+                                throw new ValidarFechaNac();
+                            }
+
+                        } else {
+                            throw new ValidarFechaNac();
+                        }
+                    } else {
+                        throw new ValidarFechaNac();
+                    }
+                } else {
+                    throw new ValidarFechaNac();
+                }
+            } else {
+                throw new ValidarFechaNac();
+            }
+        } else {
+            throw new ValidarFechaNac();
+        }
     }
 
     public int getEdad() {
@@ -133,7 +252,19 @@ public class Persona {
 
         if (celular.length() == 10) {
 
-            this.celular = celular;
+            if (celular.charAt(0) == 0) {
+
+                if (celular.charAt(1) == 9) {
+
+                    this.celular = celular;
+
+                }
+
+            } else {
+
+                throw new ValidarCelular();
+
+            }
 
         } else {
 
