@@ -5,6 +5,8 @@
  */
 package ec.edu.ups.modelo;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Domenica Cañizares
@@ -14,8 +16,11 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form otro
      */
+    private Crear crearPer;
+
     public Menu() {
         initComponents();
+        this.setExtendedState(Menu.MAXIMIZED_BOTH);
     }
 
     /**
@@ -30,7 +35,7 @@ public class Menu extends javax.swing.JFrame {
         DesktopPane = new javax.swing.JDesktopPane();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        itemCrear = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -40,14 +45,14 @@ public class Menu extends javax.swing.JFrame {
 
         jMenu1.setText("Persona");
 
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Crear");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        itemCrear.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
+        itemCrear.setText("Crear");
+        itemCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                itemCrearActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(itemCrear);
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Buscar");
@@ -83,9 +88,36 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    private void itemCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemCrearActionPerformed
+
+        String x = crearPer.x;
+
+        try {
+
+            if (x == null) {
+
+                if (crearPer == null || crearPer.isVisible() == false) {
+
+                    crearPer = new Crear();
+                    DesktopPane.add(crearPer);
+
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "La ventana ya esta abierta");
+
+            }
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            System.err.println("Error " + ex.toString());
+
+        }
+
+
+    }//GEN-LAST:event_itemCrearActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,8 +157,8 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane DesktopPane;
+    private javax.swing.JMenuItem itemCrear;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

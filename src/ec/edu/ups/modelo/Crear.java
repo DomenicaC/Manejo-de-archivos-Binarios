@@ -12,6 +12,7 @@ import ec.edu.ups.excepciones.ValidarEdad;
 import ec.edu.ups.excepciones.ValidarFechaNac;
 import ec.edu.ups.excepciones.ValidarNombre;
 import ec.edu.ups.excepciones.ValidarSueldo;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.logging.Level;
@@ -290,61 +291,69 @@ public class Crear extends javax.swing.JInternalFrame {
             persona.setNombre(txtNombre.getText());
             persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
 
-            if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
+            archivo.seek(archivo.length());
 
-                JOptionPane.showMessageDialog(this, "Persona Creada");
+            /*if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {*/
+            JOptionPane.showMessageDialog(this, "Persona Creada");
 
-                archivo.writeUTF(txtApellido.getText());
-                archivo.writeUTF(txtCedula.getText());
-                archivo.writeUTF(txtCelular.getText());
-                archivo.writeInt(Integer.parseInt(txtEdad.getText()));
-                archivo.writeUTF(txtFecha.getText());
-                archivo.writeUTF(txtNombre.getText());
-                archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
+            archivo.writeUTF(txtApellido.getText());
+            archivo.writeUTF(txtCedula.getText());
+            archivo.writeUTF(txtCelular.getText());
+            archivo.writeInt(Integer.parseInt(txtEdad.getText()));
+            archivo.writeUTF(txtFecha.getText());
+            archivo.writeUTF(txtNombre.getText());
+            archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
 
-                archivo.close();
+            archivo.close();
 
-                txtApellido.setText("");
-                txtCedula.setText("");
-                txtCelular.setText("");
-                txtEdad.setText("");
-                txtFecha.setText("");
-                txtNombre.setText("");
-                txtSueldo.setText("");
+            txtApellido.setText("");
+            txtCedula.setText("");
+            txtCelular.setText("");
+            txtEdad.setText("");
+            txtFecha.setText("");
+            txtNombre.setText("");
+            txtSueldo.setText("");
 
-            }
+            /*} else {
+
+             JOptionPane.showMessageDialog(this, "No");
+
+             }*/
+        } catch (ValidarNombre nom) {
+
+            JOptionPane.showMessageDialog(this, "Error " + nom.toString());
 
         } catch (ValidarApellido ape) {
 
-            JOptionPane.showMessageDialog(this, "Error " + ape);
-
-        } catch (ValidarCelular cel) {
-
-            JOptionPane.showMessageDialog(this, "Error " + cel);
+            JOptionPane.showMessageDialog(this, "Error " + ape.toString());
 
         } catch (ValidarCedula ced) {
 
-            JOptionPane.showMessageDialog(this, "Error " + ced);
+            JOptionPane.showMessageDialog(this, "Error " + ced.toString());
 
         } catch (ValidarEdad edad) {
 
-            JOptionPane.showMessageDialog(this, "Error " + edad);
+            JOptionPane.showMessageDialog(this, "Error " + edad.toString());
 
         } catch (ValidarFechaNac fecNac) {
 
-            JOptionPane.showMessageDialog(this, "Error " + fecNac);
-
-        } catch (ValidarNombre nom) {
-
-            JOptionPane.showMessageDialog(this, "Error " + nom);
+            JOptionPane.showMessageDialog(this, "Error " + fecNac.toString());
 
         } catch (ValidarSueldo sueldo) {
 
-            JOptionPane.showMessageDialog(this, "Error " + sueldo);
+            JOptionPane.showMessageDialog(this, "Error " + sueldo.toString());
+
+        } catch (ValidarCelular cel) {
+
+            JOptionPane.showMessageDialog(this, "Error " + cel.toString());
+
+        } catch (FileNotFoundException e) {
+
+            JOptionPane.showMessageDialog(this, "Error " + e.toString());
 
         } catch (IOException ex) {
 
-            JOptionPane.showMessageDialog(this, "Error " + ex);
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
 
         }
 
