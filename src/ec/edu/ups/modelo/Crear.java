@@ -5,6 +5,19 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.excepciones.ValidarApellido;
+import ec.edu.ups.excepciones.ValidarCedula;
+import ec.edu.ups.excepciones.ValidarCelular;
+import ec.edu.ups.excepciones.ValidarEdad;
+import ec.edu.ups.excepciones.ValidarFechaNac;
+import ec.edu.ups.excepciones.ValidarNombre;
+import ec.edu.ups.excepciones.ValidarSueldo;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Domenica Cañizares
@@ -14,8 +27,20 @@ public class Crear extends javax.swing.JInternalFrame {
     /**
      * Creates new form InterfazPersona
      */
+    public static String x;
+    private Persona persona;
+
     public Crear() {
+
         initComponents();
+        this.persona = persona;
+
+        x = "x";
+        int a = Menu.DesktopPane.getWidth() - this.getWidth();
+        int b = Menu.DesktopPane.getHeight() - this.getHeight();
+
+        setLocation(a / 2, b / 2);
+        setVisible(true);
     }
 
     /**
@@ -46,6 +71,24 @@ public class Crear extends javax.swing.JInternalFrame {
         btnCancelar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtCod = new javax.swing.JTextField();
+
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Rockwell", 3, 24)); // NOI18N
         jLabel1.setText("Persona");
@@ -105,6 +148,11 @@ public class Crear extends javax.swing.JInternalFrame {
 
         btnCancelar.setFont(new java.awt.Font("Rockwell", 3, 18)); // NOI18N
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         jLabel9.setText("Codigo");
@@ -226,8 +274,95 @@ public class Crear extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_txtFechaActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
-        // TODO add your handling code here:
+
+        String ruta = "archivo.ups";
+        persona = new Persona();
+
+        try {
+
+            RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
+
+            persona.setApellido(txtApellido.getText());
+            persona.setCedula(txtCedula.getText());
+            persona.setCelular(txtCelular.getText());
+            persona.setEdad(Integer.parseInt(txtEdad.getText()));
+            persona.setFechaNac(txtFecha.getText());
+            persona.setNombre(txtNombre.getText());
+            persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
+
+            if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
+
+                JOptionPane.showMessageDialog(this, "Persona Creada");
+
+                archivo.writeUTF(txtApellido.getText());
+                archivo.writeUTF(txtCedula.getText());
+                archivo.writeUTF(txtCelular.getText());
+                archivo.writeInt(Integer.parseInt(txtEdad.getText()));
+                archivo.writeUTF(txtFecha.getText());
+                archivo.writeUTF(txtNombre.getText());
+                archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
+
+                archivo.close();
+
+                txtApellido.setText("");
+                txtCedula.setText("");
+                txtCelular.setText("");
+                txtEdad.setText("");
+                txtFecha.setText("");
+                txtNombre.setText("");
+                txtSueldo.setText("");
+
+            }
+
+        } catch (ValidarApellido ape) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ape);
+
+        } catch (ValidarCelular cel) {
+
+            JOptionPane.showMessageDialog(this, "Error " + cel);
+
+        } catch (ValidarCedula ced) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ced);
+
+        } catch (ValidarEdad edad) {
+
+            JOptionPane.showMessageDialog(this, "Error " + edad);
+
+        } catch (ValidarFechaNac fecNac) {
+
+            JOptionPane.showMessageDialog(this, "Error " + fecNac);
+
+        } catch (ValidarNombre nom) {
+
+            JOptionPane.showMessageDialog(this, "Error " + nom);
+
+        } catch (ValidarSueldo sueldo) {
+
+            JOptionPane.showMessageDialog(this, "Error " + sueldo);
+
+        } catch (IOException ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex);
+
+        }
+
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+
+        this.setVisible(false);
+        this.dispose();
+        x = null;
+
+    }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+
+        x = null;
+
+    }//GEN-LAST:event_formInternalFrameClosing
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
