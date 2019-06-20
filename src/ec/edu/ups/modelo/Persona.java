@@ -25,8 +25,7 @@ public class Persona {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    
-    
+
     private String nombre;
     private String apellido;
     private String cedula;
@@ -63,28 +62,43 @@ public class Persona {
     public void setCedula(String cedula) throws ValidarCedula {
 
         if (cedula.length() == 10) {
+
             int pos = Integer.parseInt(cedula.substring(2, 3));
             if (pos <= 6) {
+
                 int[] Validacion = {2, 1, 2, 1, 2, 1, 2, 1, 2};
                 int cedu = Integer.parseInt(cedula.substring(9, 10));
                 int a = 0;
                 int d = 0;
                 for (int i = 0; i < (cedula.length() - 1); i++) {
+
                     d = Integer.parseInt(cedula.substring(i, i + 1)) * Validacion[i];
                     a += ((d % 10) + (d / 10));
+
                 }
+
                 if ((a % 10 == 0) && (a % 10 == cedu)) {
+
                     this.cedula = cedula;
+
                 } else if ((10 - (a % 10)) == cedu) {
+
                     this.cedula = cedula;
+
                 } else {
+
                     throw new ValidarCedula();
+
                 }
             } else {
+
                 throw new ValidarCedula();
+
             }
         } else {
+
             throw new ValidarCedula();
+
         }
 
     }
@@ -101,7 +115,7 @@ public class Persona {
         return edad;
     }
 
-    public void setEdad(int edad) throws ValidarEdad{
+    public void setEdad(int edad) throws ValidarEdad {
 
         if (edad >= 20 && edad <= 35) {
             this.edad = edad;
@@ -115,36 +129,36 @@ public class Persona {
         return celular;
     }
 
-    public void setCelular(String celular) throws ValidarCelular{
-        
-        if(celular.length() == 10){
-            
+    public void setCelular(String celular) throws ValidarCelular {
+
+        if (celular.length() == 10) {
+
             this.celular = celular;
-            
-        }else{
-            
+
+        } else {
+
             throw new ValidarCelular();
-            
+
         }
-        
+
     }
 
     public double getSueldo() {
         return sueldo;
     }
 
-    public void setSueldo(double sueldo) throws ValidarSueldo{
-        
-        if(sueldo != 0){
-            
+    public void setSueldo(double sueldo) throws ValidarSueldo {
+
+        if (sueldo != 0) {
+
             this.sueldo = sueldo;
-            
-        }else{
-            
+
+        } else {
+
             throw new ValidarSueldo();
-            
+
         }
-        
+
     }
 
 }
