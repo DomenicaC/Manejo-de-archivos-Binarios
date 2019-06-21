@@ -56,7 +56,7 @@ public class Persona {
 
                 nombre = nombre + "a";
                 //v = false;
-                
+
             }
 
             this.nombre = nombre;
@@ -154,6 +154,58 @@ public class Persona {
 
     }
 
+    public String getCelular() {
+        return celular;
+    }
+
+    public void setCelular(String celular) throws ValidarCelular {
+
+        if (celular.length() == 10) {
+
+            this.celular = celular;
+            /*if (celular.charAt(0) == 0) {
+
+             if (celular.charAt(1) == 9) {
+
+             this.celular = celular;
+
+             }
+
+             } else {
+
+             throw new ValidarCelular();
+
+             }*/
+        } else {
+
+            throw new ValidarCelular();
+
+        }
+
+        System.out.println("Celular " + celular);
+
+    }
+
+    public int getEdad() {
+        return edad;
+    }
+
+    public void setEdad(int edad) throws ValidarEdad {
+
+        if (edad >= 20 && edad <= 35) {
+
+            this.edad = edad;
+
+        } else {
+
+            throw new ValidarEdad();
+
+        }
+
+        System.out.println("Edad " + edad);
+
+    }
+
     public String getFechaNac() {
 
         return fechaNac;
@@ -166,6 +218,7 @@ public class Persona {
         boolean corr = false;
 
         if (fechaNac.length() == 10) {
+            this.fechaNac = fechaNac;
             /*if (String.valueOf(fechaNac.charAt(2)).equals(resp) && String.valueOf(fechaNac.charAt(5)).equals(resp)) {
              //dia
              if (fechaNac.charAt(0) > 0 && fechaNac.charAt(0) < 4) {
@@ -233,57 +286,6 @@ public class Persona {
              throw new ValidarFechaNac();*/
         }
         System.out.println("Fecha Nacimiento " + fechaNac);
-    }
-
-    public int getEdad() {
-        return edad;
-    }
-
-    public void setEdad(int edad) throws ValidarEdad {
-
-        if (edad >= 20 && edad <= 35) {
-
-            this.edad = edad;
-
-        } else {
-
-            throw new ValidarEdad();
-
-        }
-
-        System.out.println("Edad " + edad);
-
-    }
-
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) throws ValidarCelular {
-
-        if (celular.length() == 10) {
-
-            /*if (celular.charAt(0) == 0) {
-
-             if (celular.charAt(1) == 9) {
-
-             this.celular = celular;
-
-             }
-
-             } else {
-
-             throw new ValidarCelular();
-
-             }*/
-        } else {
-
-            throw new ValidarCelular();
-
-        }
-
-        System.out.println("Celular " + celular);
-
     }
 
     public double getSueldo() {

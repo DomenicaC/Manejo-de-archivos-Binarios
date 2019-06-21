@@ -5,6 +5,7 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.controlador.ControladorPersona;
 import ec.edu.ups.excepciones.ValidarApellido;
 import ec.edu.ups.excepciones.ValidarCedula;
 import ec.edu.ups.excepciones.ValidarCelular;
@@ -30,6 +31,7 @@ public class Crear extends javax.swing.JInternalFrame {
      */
     public static String x;
     private Persona persona;
+    private ControladorPersona contPer;
 
     public Crear() {
 
@@ -198,10 +200,10 @@ public class Crear extends javax.swing.JInternalFrame {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(txtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3))
-                                .addGap(25, 25, 25)
+                                .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -227,16 +229,14 @@ public class Crear extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -283,28 +283,29 @@ public class Crear extends javax.swing.JInternalFrame {
 
             RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
 
-            persona.setNombre(txtNombre.getText());
-            persona.setApellido(txtApellido.getText());
-            persona.setCedula(txtCedula.getText());
-            persona.setEdad(Integer.parseInt(txtEdad.getText()));
-            persona.setFechaNac(txtFecha.getText());
-            persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
+            persona.setNombre(txtNombre.getText().trim());
+            persona.setApellido(txtApellido.getText().trim());
+            persona.setCedula(txtCedula.getText().trim());
+            persona.setEdad(Integer.parseInt(txtEdad.getText().trim()));
+            persona.setFechaNac(txtFecha.getText().trim());
+            persona.setSueldo(Double.parseDouble(txtSueldo.getText().trim()));
             persona.setCelular(txtCelular.getText());
-            
-            //System.out.println(nombre+" ");
+
+            //txtNombre.setText(persona.getNombre());
+            System.out.println(txtNombre.getText() + " " + txtApellido.getText() + " " + txtCedula.getText() + " " + Integer.parseInt(txtEdad.getText()) + " " + txtFecha.getText() + " " + Double.parseDouble(txtSueldo.getText()) + " " + txtCelular.getText());
 
             if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
                 JOptionPane.showMessageDialog(this, "Persona Creada");
 
                 archivo.seek(archivo.length());
-                archivo.writeUTF(txtNombre.getText());
-                archivo.writeUTF(txtApellido.getText());
-                archivo.writeUTF(txtCedula.getText());
-                archivo.writeUTF(txtCelular.getText());
-                archivo.writeInt(Integer.parseInt(txtEdad.getText()));
-                archivo.writeUTF(txtFecha.getText());
-                archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
-
+                archivo.writeUTF(persona.getNombre());
+                archivo.writeUTF(persona.getApellido());
+                archivo.writeUTF(persona.getCedula());
+                archivo.writeUTF(persona.getCelular());
+                archivo.writeInt(persona.getEdad());
+                archivo.writeUTF(persona.getFechaNac());
+                archivo.writeDouble(persona.getSueldo());
+                contPer.create(persona);
                 archivo.close();
 
                 txtApellido.setText("");

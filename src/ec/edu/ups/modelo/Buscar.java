@@ -5,6 +5,7 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.controlador.ControladorPersona;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
@@ -20,6 +21,7 @@ public class Buscar extends javax.swing.JInternalFrame {
      */
     private Persona persona;
     public static String x;
+    private ControladorPersona contPer;
 
     public Buscar() {
         initComponents();
@@ -265,39 +267,59 @@ public class Buscar extends javax.swing.JInternalFrame {
             System.out.println("Tamaño archivo " + tam);
 
             int num = Integer.parseInt(txtCod.getText());
+            System.out.println(num + " num");
 
-            if (num == 1) {
+            if (num == 0) {
 
                 //leer nombre
                 archivo.seek(0);
-                System.out.println("Nombre " + archivo.readUTF());
+                txtNombre.setText(archivo.readUTF());
+             //System.out.println("Nombre " + archivo.readUTF());
 
                 //leer apellido
                 archivo.seek(52);
-                System.out.println("Apellido " + archivo.readUTF());
+                txtApellido.setText(archivo.readUTF());
+             //System.out.println("Apellido " + archivo.readUTF());
 
                 //leer cedula 
                 archivo.seek(104);
-                System.out.println("Cedula " + archivo.readUTF());
+                txtCedula.setText(archivo.readUTF());
+             //System.out.println("Cedula " + archivo.readUTF());
 
                 //leer celular
                 archivo.seek(116);
-                System.out.println("Celular " + archivo.readUTF());
+                txtCelular.setText(archivo.readUTF());
+             //System.out.println("Celular " + archivo.readUTF());
 
                 //leer edad
                 archivo.seek(128);
-                System.out.println("Edad " + archivo.readInt());
+                txtEdad.setText(String.valueOf(archivo.readInt()));
+             //System.out.println("Edad " + archivo.readInt());
 
                 //leer fecha
                 archivo.seek(132);
-                System.out.println("Fecha Nacimiento " + archivo.readUTF());
+                txtFecha.setText(archivo.readUTF());
+             //System.out.println("Fecha Nacimiento " + archivo.readUTF());
 
                 //leer sueldo
                 archivo.seek(144);
-                System.out.println("Sueldo " + archivo.readDouble());
+                txtSueldo.setText(String.valueOf(archivo.readDouble()));
+                //System.out.println("Sueldo " + archivo.readDouble());
 
                 //termina la conexion de java con el archivo
                 archivo.close();
+
+            } else if (num >= 1) {
+
+                int pos = Integer.parseInt(txtCod.getText());
+                contPer.read(String.valueOf(pos));
+                txtApellido.setText(persona.getApellido());
+                txtCedula.setText(persona.getCedula());
+                txtCelular.setText(persona.getCelular());
+                txtEdad.setText(String.valueOf(persona.getEdad()));
+                txtFecha.setText(persona.getFechaNac());
+                txtNombre.setText(persona.getNombre());
+                txtSueldo.setText(String.valueOf(persona.getSueldo()));
 
             }
 
@@ -307,9 +329,11 @@ public class Buscar extends javax.swing.JInternalFrame {
 
         } catch (IOException error1) {
 
-            System.err.println("Error de escritura");
+            System.err.println("Error de lectura");
 
         }
+
+        ///////////////////////////////////////////////////////////////////////////////////////
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
