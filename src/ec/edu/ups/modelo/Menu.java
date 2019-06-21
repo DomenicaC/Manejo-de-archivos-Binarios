@@ -5,6 +5,7 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.controlador.ControladorPersona;
 import javax.swing.JOptionPane;
 
 /**
@@ -16,8 +17,11 @@ public class Menu extends javax.swing.JFrame {
     /**
      * Creates new form otro
      */
+    private ControladorPersona contPer;
+    
     private Crear crearPer;
     private Buscar buscarPer;
+    private Modificar modPer;
 
     public Menu() {
         initComponents();
@@ -66,6 +70,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem3.setText("Modificar");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem3);
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
@@ -104,7 +113,7 @@ public class Menu extends javax.swing.JFrame {
 
                 if (crearPer == null || crearPer.isVisible() == false) {
 
-                    crearPer = new Crear();
+                    crearPer = new Crear(contPer);
                     DesktopPane.add(crearPer);
 
                 }
@@ -135,7 +144,7 @@ public class Menu extends javax.swing.JFrame {
 
                 if (buscarPer == null || buscarPer.isVisible() == false) {
 
-                    buscarPer = new Buscar();
+                    buscarPer = new Buscar(contPer);
                     DesktopPane.add(buscarPer);
 
                 }
@@ -154,6 +163,36 @@ public class Menu extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        
+        String x = modPer.x;
+
+        try {
+
+            if (x == null) {
+
+                if (modPer == null || modPer.isVisible() == false) {
+
+                    modPer = new Modificar(contPer);
+                    DesktopPane.add(modPer);
+
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "La ventana ya esta abierta");
+
+            }
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            System.err.println("Error " + ex.toString());
+
+        }
+        
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments

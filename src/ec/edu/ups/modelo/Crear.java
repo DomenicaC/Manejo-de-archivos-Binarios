@@ -33,10 +33,11 @@ public class Crear extends javax.swing.JInternalFrame {
     private Persona persona;
     private ControladorPersona contPer;
 
-    public Crear() {
+    public Crear(ControladorPersona contPer) {
 
         initComponents();
         this.persona = persona;
+        this.contPer = contPer;
 
         x = "x";
         int a = Menu.DesktopPane.getWidth() - this.getWidth();
