@@ -5,6 +5,10 @@
  */
 package ec.edu.ups.modelo;
 
+import ec.edu.ups.controlador.ControladorPersona;
+import java.util.Set;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Domenica Cañizares
@@ -14,8 +18,37 @@ public class Listar extends javax.swing.JInternalFrame {
     /**
      * Creates new form Listar
      */
-    public Listar() {
+    public static String x;
+    private ControladorPersona contPer;
+
+    public Listar(ControladorPersona contPer) {
         initComponents();
+        this.contPer = contPer;
+
+        x = "x";
+        int a = Menu.DesktopPane.getWidth() - this.getWidth();
+        int b = Menu.DesktopPane.getHeight() - this.getHeight();
+
+        setLocation(a / 2, b / 2);
+        setVisible(true);
+        llenarDatos();
+    }
+
+    public void llenarDatos() {
+        DefaultTableModel modelo = (DefaultTableModel) tblPer.getModel();
+        Set<Persona> lista = contPer.getLista();
+        for (Persona per : lista) {
+            Object[] datos = {
+                per.getNombre(),
+                per.getApellido(),
+                per.getCedula(),
+                per.getCelular(),
+                per.getEdad(),
+                per.getFechaNac(),
+                per.getSueldo()};
+
+            modelo.addRow(datos);
+        }
     }
 
     /**
@@ -27,21 +60,64 @@ public class Listar extends javax.swing.JInternalFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblPer = new javax.swing.JTable();
+
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosing(evt);
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
+
+        tblPer.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nombre", "Apellido", "Cedula", "Celular", "Edad", "Fecha Nacimiento", "Sueldo"
+            }
+        ));
+        jScrollPane1.setViewportView(tblPer);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+        x = null;
+    }//GEN-LAST:event_formInternalFrameClosing
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblPer;
     // End of variables declaration//GEN-END:variables
 }

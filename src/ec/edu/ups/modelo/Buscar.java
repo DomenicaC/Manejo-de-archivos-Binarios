@@ -312,54 +312,54 @@ public class Buscar extends javax.swing.JInternalFrame {
                 archivo.close();
 
             } else if (num >= 1) {
-/*
-                //leer nombre
-                archivo.seek(Integer.parseInt(String.valueOf(152)) * Integer.parseInt(String.valueOf(num)));
-                txtNombre.setText(archivo.readUTF());
-             //System.out.println("Nombre " + archivo.readUTF());
+                /*
+                 //leer nombre
+                 archivo.seek(Integer.parseInt(String.valueOf(152)) * Integer.parseInt(String.valueOf(num)));
+                 txtNombre.setText(archivo.readUTF());
+                 //System.out.println("Nombre " + archivo.readUTF());
 
-                //leer apellido
-                archivo.seek(Integer.parseInt(String.valueOf(52)) * Integer.parseInt(String.valueOf(num)));
-                txtApellido.setText(archivo.readUTF());
-             //System.out.println("Apellido " + archivo.readUTF());
+                 //leer apellido
+                 archivo.seek(Integer.parseInt(String.valueOf(52)) * Integer.parseInt(String.valueOf(num)));
+                 txtApellido.setText(archivo.readUTF());
+                 //System.out.println("Apellido " + archivo.readUTF());
 
-                //leer cedula 
-                archivo.seek(Integer.parseInt(String.valueOf(104)) * Integer.parseInt(String.valueOf(num)));
-                txtCedula.setText(archivo.readUTF());
-             //System.out.println("Cedula " + archivo.readUTF());
+                 //leer cedula 
+                 archivo.seek(Integer.parseInt(String.valueOf(104)) * Integer.parseInt(String.valueOf(num)));
+                 txtCedula.setText(archivo.readUTF());
+                 //System.out.println("Cedula " + archivo.readUTF());
 
-                //leer celular
-                archivo.seek(Integer.parseInt(String.valueOf(116)) * Integer.parseInt(String.valueOf(num)));
-                txtCelular.setText(archivo.readUTF());
-             //System.out.println("Celular " + archivo.readUTF());
+                 //leer celular
+                 archivo.seek(Integer.parseInt(String.valueOf(116)) * Integer.parseInt(String.valueOf(num)));
+                 txtCelular.setText(archivo.readUTF());
+                 //System.out.println("Celular " + archivo.readUTF());
 
-                //leer edad
-                archivo.seek(Integer.parseInt(String.valueOf(128)) * Integer.parseInt(String.valueOf(num)));
-                txtEdad.setText(String.valueOf(archivo.readInt()));
-             //System.out.println("Edad " + archivo.readInt());
+                 //leer edad
+                 archivo.seek(Integer.parseInt(String.valueOf(128)) * Integer.parseInt(String.valueOf(num)));
+                 txtEdad.setText(String.valueOf(archivo.readInt()));
+                 //System.out.println("Edad " + archivo.readInt());
 
-                //leer fecha
-                archivo.seek(Integer.parseInt(String.valueOf(132)) * Integer.parseInt(String.valueOf(num)));
-                txtFecha.setText(archivo.readUTF());
-             //System.out.println("Fecha Nacimiento " + archivo.readUTF());
+                 //leer fecha
+                 archivo.seek(Integer.parseInt(String.valueOf(132)) * Integer.parseInt(String.valueOf(num)));
+                 txtFecha.setText(archivo.readUTF());
+                 //System.out.println("Fecha Nacimiento " + archivo.readUTF());
 
-                //leer sueldo
-                archivo.seek(Integer.parseInt(String.valueOf(144)) * Integer.parseInt(String.valueOf(num)));
-                txtSueldo.setText(String.valueOf(archivo.readDouble()));
-                //System.out.println("Sueldo " + archivo.readDouble());
+                 //leer sueldo
+                 archivo.seek(Integer.parseInt(String.valueOf(144)) * Integer.parseInt(String.valueOf(num)));
+                 txtSueldo.setText(String.valueOf(archivo.readDouble()));
+                 //System.out.println("Sueldo " + archivo.readDouble());
 
-                //termina la conexion de java con el archivo
-                archivo.close();*/
+                 //termina la conexion de java con el archivo
+                 archivo.close();*/
 
                 int pos = Integer.parseInt(txtCod.getText());
-                 contPer.read(String.valueOf(pos));
-                 txtApellido.setText(persona.getApellido());
-                 txtCedula.setText(persona.getCedula());
-                 txtCelular.setText(persona.getCelular());
-                 txtEdad.setText(String.valueOf(persona.getEdad()));
-                 txtFecha.setText(persona.getFechaNac());
-                 txtNombre.setText(persona.getNombre());
-                 txtSueldo.setText(String.valueOf(persona.getSueldo()));
+                contPer.read(pos);
+                txtApellido.setText(persona.getApellido());
+                txtCedula.setText(persona.getCedula());
+                txtCelular.setText(persona.getCelular());
+                txtEdad.setText(String.valueOf(persona.getEdad()));
+                txtFecha.setText(persona.getFechaNac());
+                txtNombre.setText(persona.getNombre());
+                txtSueldo.setText(String.valueOf(persona.getSueldo()));
             }
 
         } catch (FileNotFoundException error) {

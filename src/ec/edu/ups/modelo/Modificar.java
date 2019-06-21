@@ -340,7 +340,7 @@ public class Modificar extends javax.swing.JInternalFrame {
             } else if (num >= 1) {
 
                 int pos = Integer.parseInt(txtCod.getText());
-                contPer.read(String.valueOf(pos));
+                contPer.read(pos);
                 txtApellido.setText(persona.getApellido());
                 txtCedula.setText(persona.getCedula());
                 txtCelular.setText(persona.getCelular());

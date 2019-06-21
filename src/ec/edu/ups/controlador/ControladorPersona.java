@@ -7,7 +7,9 @@ package ec.edu.ups.controlador;
 
 import ec.edu.ups.modelo.Persona;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -15,59 +17,49 @@ import java.util.List;
  */
 public class ControladorPersona {
 
-    private List<Persona> lista;
+    private Set<Persona> lista;
     private int codigo;
-
-    public ControladorPersona() {
-        lista = new ArrayList<>();
-        codigo = 0;
+    
+    public Set<Persona> getLista(){
+        return lista;                
     }
-
-    //crear un num=evo objeto en la lista
-    public void create(Persona objeto) {
+    public int getCodigo(){
+        return codigo;
+    }
+    public ControladorPersona(){
+        lista=new HashSet<>();
+        codigo=1;
+    }
+    public void create(Persona per){
+        per.setCodigo(codigo);
         codigo++;
-        objeto.setCodigo(codigo);
-        lista.add(objeto);
+        lista.add(per);
     }
-
-    //leer un objeto en la lista por medio del codigo
-    public Persona read(String cedula) {
-        for (Persona per : lista) {
-            if (per.getCedula() == cedula) {
+    public Persona read(int codigo){
+        for(Persona per: lista){
+            if(per.getCodigo()==codigo){
                 return per;
             }
         }
         return null;
     }
-
-    //modificar un objeto en la lista por medio del codigo
-    public void update(Persona objeto) {
-
-        for (int i = 0; i < lista.size(); i++) {
-            Persona elemento = lista.get(i);
-            if (elemento.getCodigo() == objeto.getCodigo()) {
-                lista.set(i, objeto);
-                break;
-            }
-        }
-
+    public void update(Persona per){
+        
+            lista.remove(per);
+            lista.add(per);
+        
     }
-
-    //eliminar un objeto por medio del codigo
-    public void delete(int codigo) {
-        for (int i = 0; i < lista.size(); i++) {
-            Persona elemento = lista.get(i);
-            if (elemento.getCodigo() == codigo) {
-                lista.remove(i);
+    
+    public void delete(int codigo){
+        for (Persona per : lista) {
+            if(per.getCodigo() == codigo){
+                lista.remove(per);
                 break;
             }
         }
     }
-
-    //imprime todos los objetos de la lista
-    public void print() {
-        System.out.println("Lista \n");
-
+    
+    public void imprimir(){
         for (Persona per : lista) {
             System.out.println(per.getNombre());
         }
