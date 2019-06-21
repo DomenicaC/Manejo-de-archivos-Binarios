@@ -54,7 +54,7 @@ public class Persona {
 
             while (nombre.length() < 50) {
 
-                nombre = nombre + "_";
+                nombre = nombre + "a";
                 //v = false;
                 
             }
@@ -85,7 +85,7 @@ public class Persona {
 
             while (apellido.length() < 50) {
 
-                apellido = apellido + "_";
+                apellido = apellido + "a";
                 //v = false;
 
             }

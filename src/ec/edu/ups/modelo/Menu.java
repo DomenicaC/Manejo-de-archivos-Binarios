@@ -17,6 +17,7 @@ public class Menu extends javax.swing.JFrame {
      * Creates new form otro
      */
     private Crear crearPer;
+    private Buscar buscarPer;
 
     public Menu() {
         initComponents();
@@ -56,6 +57,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
         jMenuItem2.setText("Buscar");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
@@ -118,6 +124,36 @@ public class Menu extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_itemCrearActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+        String x = buscarPer.x;
+
+        try {
+
+            if (x == null) {
+
+                if (buscarPer == null || buscarPer.isVisible() == false) {
+
+                    buscarPer = new Buscar();
+                    DesktopPane.add(buscarPer);
+
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "La ventana ya esta abierta");
+
+            }
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            System.err.println("Error " + ex.toString());
+
+        }
+        
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

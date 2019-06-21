@@ -283,69 +283,47 @@ public class Crear extends javax.swing.JInternalFrame {
 
             RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
 
+            persona.setNombre(txtNombre.getText());
             persona.setApellido(txtApellido.getText());
             persona.setCedula(txtCedula.getText());
-            persona.setCelular(txtCelular.getText());
             persona.setEdad(Integer.parseInt(txtEdad.getText()));
             persona.setFechaNac(txtFecha.getText());
-            persona.setNombre(txtNombre.getText());
             persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
+            persona.setCelular(txtCelular.getText());
+            
+            //System.out.println(nombre+" ");
 
-            archivo.seek(archivo.length());
+            if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
+                JOptionPane.showMessageDialog(this, "Persona Creada");
 
-            /*if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {*/
-            JOptionPane.showMessageDialog(this, "Persona Creada");
+                archivo.seek(archivo.length());
+                archivo.writeUTF(txtNombre.getText());
+                archivo.writeUTF(txtApellido.getText());
+                archivo.writeUTF(txtCedula.getText());
+                archivo.writeUTF(txtCelular.getText());
+                archivo.writeInt(Integer.parseInt(txtEdad.getText()));
+                archivo.writeUTF(txtFecha.getText());
+                archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
 
-            archivo.writeUTF(txtApellido.getText());
-            archivo.writeUTF(txtCedula.getText());
-            archivo.writeUTF(txtCelular.getText());
-            archivo.writeInt(Integer.parseInt(txtEdad.getText()));
-            archivo.writeUTF(txtFecha.getText());
-            archivo.writeUTF(txtNombre.getText());
-            archivo.writeDouble(Double.parseDouble(txtSueldo.getText()));
+                archivo.close();
 
-            archivo.close();
+                txtApellido.setText("");
+                txtCedula.setText("");
+                txtCelular.setText("");
+                txtEdad.setText("");
+                txtFecha.setText("");
+                txtNombre.setText("");
+                txtSueldo.setText("");
 
-            txtApellido.setText("");
-            txtCedula.setText("");
-            txtCelular.setText("");
-            txtEdad.setText("");
-            txtFecha.setText("");
-            txtNombre.setText("");
-            txtSueldo.setText("");
+            } else {
 
-            /*} else {
+                JOptionPane.showMessageDialog(this, "No");
 
-             JOptionPane.showMessageDialog(this, "No");
+            }
 
-             }*/
-        } catch (ValidarNombre nom) {
+        } catch (ValidarNombre | ValidarApellido | ValidarCedula | ValidarEdad | ValidarFechaNac | ValidarSueldo | ValidarCelular nom) {
 
             JOptionPane.showMessageDialog(this, "Error " + nom.toString());
-
-        } catch (ValidarApellido ape) {
-
-            JOptionPane.showMessageDialog(this, "Error " + ape.toString());
-
-        } catch (ValidarCedula ced) {
-
-            JOptionPane.showMessageDialog(this, "Error " + ced.toString());
-
-        } catch (ValidarEdad edad) {
-
-            JOptionPane.showMessageDialog(this, "Error " + edad.toString());
-
-        } catch (ValidarFechaNac fecNac) {
-
-            JOptionPane.showMessageDialog(this, "Error " + fecNac.toString());
-
-        } catch (ValidarSueldo sueldo) {
-
-            JOptionPane.showMessageDialog(this, "Error " + sueldo.toString());
-
-        } catch (ValidarCelular cel) {
-
-            JOptionPane.showMessageDialog(this, "Error " + cel.toString());
 
         } catch (FileNotFoundException e) {
 
