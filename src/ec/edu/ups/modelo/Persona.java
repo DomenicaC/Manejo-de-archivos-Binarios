@@ -8,6 +8,8 @@ package ec.edu.ups.modelo;
 import ec.edu.ups.excepciones.ValidarApellido;
 import ec.edu.ups.excepciones.ValidarCedula;
 import ec.edu.ups.excepciones.ValidarCelular;
+import ec.edu.ups.excepciones.ValidarDosApellidos;
+import ec.edu.ups.excepciones.ValidarDosNombres;
 import ec.edu.ups.excepciones.ValidarEdad;
 import ec.edu.ups.excepciones.ValidarFechaNac;
 import ec.edu.ups.excepciones.ValidarNombre;
@@ -46,25 +48,35 @@ public class Persona {
         return nombre;
     }
 
-    public void setNombre(String nombre) throws ValidarNombre {
+    public void setNombre(String nombre) throws ValidarNombre, ValidarDosNombres {
 
         boolean v = false;
 
-        if (v != true) {
+        for (int i = nombre.length() + 1; i <= 50; i++) {
+            nombre = nombre.substring(0) + " ";
+            v = true;
+        }
 
-            while (nombre.length() < 50) {
+        for (int i = 0; i < nombre.length(); i++) {
+            if ((nombre.charAt(i) < 60 || nombre.charAt(i) > 100 && nombre.charAt(i) < 97 || nombre.charAt(i) > 122) && nombre.charAt(i) != 32) {
+                v = true;
 
-                nombre = nombre + "a";
-                //v = false;
+            }
+        }
+
+        if (v) {
+            if (nombre.contains(" ")) {
+
+                this.nombre = nombre;
+
+            } else {
+
+                throw new ValidarDosNombres();
 
             }
 
-            this.nombre = nombre;
-            v = true;
-
         } else {
 
-            //v = true;
             throw new ValidarNombre();
 
         }
@@ -77,25 +89,37 @@ public class Persona {
         return apellido;
     }
 
-    public void setApellido(String apellido) throws ValidarApellido {
+    public void setApellido(String apellido) throws ValidarApellido, ValidarDosApellidos {
 
-        boolean v = false;
+        boolean v = true;
 
-        if (v != true) {
+        for (int i = 0; i < apellido.length(); i++) {
+            if ((apellido.charAt(i) < 60 || apellido.charAt(i) > 100 && apellido.charAt(i) < 97 || apellido.charAt(i) > 122) && apellido.charAt(i) != 32) {
+                v = false;
 
-            while (apellido.length() < 50) {
+            }
+        }
+      
+        if (v) {
 
-                apellido = apellido + "a";
-                //v = false;
+            if (apellido.contains(" ")) {
+                while(apellido.length()<50){
+                    apellido=apellido+" ";
+                    this.apellido = apellido;
+                    v=true;
+                    
+                }
+
+                
+
+            } else {
+
+                throw new ValidarDosApellidos();
 
             }
 
-            this.apellido = apellido;
-            v = true;
-
         } else {
 
-            //v = true;
             throw new ValidarApellido();
 
         }
@@ -163,9 +187,9 @@ public class Persona {
         if (celular.length() == 10) {
 
             this.celular = celular;
-            /*if (celular.charAt(0) == 0) {
+            /*if (Integer.parseInt(celular.substring(1)) == 0) {
 
-             if (celular.charAt(1) == 9) {
+             if (Integer.parseInt(celular.substring(2)) == 9) {
 
              this.celular = celular;
 
@@ -192,7 +216,7 @@ public class Persona {
 
     public void setEdad(int edad) throws ValidarEdad {
 
-        if (edad >= 20 && edad <= 35) {
+        if (edad >=0) {
 
             this.edad = edad;
 
@@ -219,19 +243,19 @@ public class Persona {
 
         if (fechaNac.length() == 10) {
             this.fechaNac = fechaNac;
-            /*if (String.valueOf(fechaNac.charAt(2)).equals(resp) && String.valueOf(fechaNac.charAt(5)).equals(resp)) {
+            /*if (fechaNac.substring(2).equals(resp) && fechaNac.substring(5).equals(resp)) {
              //dia
-             if (fechaNac.charAt(0) > 0 && fechaNac.charAt(0) < 4) {
-             if (fechaNac.charAt(1) > 0 && fechaNac.charAt(1) < 9) {
+             if (Integer.parseInt(fechaNac.substring(0)) > 0 && Integer.parseInt(fechaNac.substring(0)) < 4) {
+             if (Integer.parseInt(fechaNac.substring(1)) > 0 && Integer.parseInt(fechaNac.substring(1)) < 9) {
              //mes
-             if (fechaNac.charAt(3) == 1) {
-             if (fechaNac.charAt(4) > 0 && fechaNac.charAt(4) < 3) {
+             if (Integer.parseInt(fechaNac.substring(3)) == 1) {
+             if (Integer.parseInt(fechaNac.substring(4)) > 0 && Integer.parseInt(fechaNac.substring(4)) < 3) {
              //año
-             if (fechaNac.charAt(6) > 0 && fechaNac.charAt(6) < 3) {
-             if (fechaNac.charAt(6) == 1) {
-             if (fechaNac.charAt(7) >= 0 && fechaNac.charAt(7) <= 9) {
-             if (fechaNac.charAt(8) >= 0 && fechaNac.charAt(8) <= 9) {
-             if (fechaNac.charAt(9) >= 0 && fechaNac.charAt(9) <= 9) {
+             if (Integer.parseInt(fechaNac.substring(6)) > 0 && Integer.parseInt(fechaNac.substring(6)) < 3) {
+             if (Integer.parseInt(fechaNac.substring(6)) == 1) {
+             if (Integer.parseInt(fechaNac.substring(7)) >= 0 && Integer.parseInt(fechaNac.substring(7)) <= 9) {
+             if (Integer.parseInt(fechaNac.substring(8)) >= 0 && Integer.parseInt(fechaNac.substring(8)) <= 9) {
+             if (Integer.parseInt(fechaNac.substring(9)) >= 0 && Integer.parseInt(fechaNac.substring(9)) <= 9) {
              this.fechaNac = fechaNac;
              } else {
              throw new ValidarFechaNac();
@@ -243,10 +267,10 @@ public class Persona {
              throw new ValidarFechaNac();
              }
              ///
-             } else if (fechaNac.charAt(6) == 2) {
-             if (fechaNac.charAt(7) == 0) {
-             if (fechaNac.charAt(8) >= 0 && fechaNac.charAt(8) <= 9) {
-             if (fechaNac.charAt(9) >= 0 && fechaNac.charAt(9) <= 9) {
+             } else if (Integer.parseInt(fechaNac.substring(6)) == 2) {
+             if (Integer.parseInt(fechaNac.substring(7)) == 0) {
+             if (Integer.parseInt(fechaNac.substring(8)) >= 0 && Integer.parseInt(fechaNac.substring(8)) <= 9) {
+             if (Integer.parseInt(fechaNac.substring(9)) >= 0 && Integer.parseInt(fechaNac.substring(9)) <= 9) {
              this.fechaNac = fechaNac;
              } else {
              throw new ValidarFechaNac();
@@ -283,7 +307,8 @@ public class Persona {
              throw new ValidarFechaNac();
              }
              } else {
-             throw new ValidarFechaNac();*/
+             throw new ValidarFechaNac();
+             }*/
         }
         System.out.println("Fecha Nacimiento " + fechaNac);
     }

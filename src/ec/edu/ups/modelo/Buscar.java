@@ -50,7 +50,7 @@ public class Buscar extends javax.swing.JInternalFrame {
         txtCedula = new javax.swing.JTextField();
         jLabel9 = new javax.swing.JLabel();
         txtFecha = new javax.swing.JTextField();
-        txtCod = new javax.swing.JTextField();
+        txtPos = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         txtEdad = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
@@ -104,7 +104,7 @@ public class Buscar extends javax.swing.JInternalFrame {
         txtCedula.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
 
         jLabel9.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
-        jLabel9.setText("Codigo");
+        jLabel9.setText("Posicion");
 
         txtFecha.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         txtFecha.addActionListener(new java.awt.event.ActionListener() {
@@ -113,7 +113,7 @@ public class Buscar extends javax.swing.JInternalFrame {
             }
         });
 
-        txtCod.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
+        txtPos.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
 
         jLabel5.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         jLabel5.setText("Fecha Nacimiento");
@@ -203,7 +203,7 @@ public class Buscar extends javax.swing.JInternalFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addGap(18, 18, 18)
-                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtPos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(99, 99, 99)))
                 .addContainerGap(44, Short.MAX_VALUE))
         );
@@ -215,7 +215,7 @@ public class Buscar extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
@@ -268,111 +268,49 @@ public class Buscar extends javax.swing.JInternalFrame {
             long tam = archivo.length();
             System.out.println("Tamaño archivo " + tam);
 
-            int num = Integer.parseInt(txtCod.getText());
-            System.out.println(num + " num");
+            int pos = Integer.parseInt(txtPos.getText()) * 152;
+            System.out.println(pos);
 
-            if (num == 0) {
+            //leer nombre
+            archivo.seek(pos);
+            txtNombre.setText(archivo.readUTF().trim());
 
-                //leer nombre
-                archivo.seek(0);
-                txtNombre.setText(archivo.readUTF());
-             //System.out.println("Nombre " + archivo.readUTF());
+            //leer apellido
+            archivo.seek(pos + 52);
+            txtApellido.setText(archivo.readUTF().trim());
 
-                //leer apellido
-                archivo.seek(52);
-                txtApellido.setText(archivo.readUTF());
-             //System.out.println("Apellido " + archivo.readUTF());
+            //leer cedula 
+            archivo.seek((Integer.parseInt(txtPos.getText()) * 152) + 104);
+            txtCedula.setText(archivo.readUTF());
 
-                //leer cedula 
-                archivo.seek(104);
-                txtCedula.setText(archivo.readUTF());
-             //System.out.println("Cedula " + archivo.readUTF());
+            //leer celular
+            archivo.seek(pos + 116);
+            txtCelular.setText(archivo.readUTF().trim());
 
-                //leer celular
-                archivo.seek(116);
-                txtCelular.setText(archivo.readUTF());
-             //System.out.println("Celular " + archivo.readUTF());
+            //leer edad
+            archivo.seek(pos + 128);
+            txtEdad.setText(String.valueOf(archivo.readInt()).trim());
 
-                //leer edad
-                archivo.seek(128);
-                txtEdad.setText(String.valueOf(archivo.readInt()));
-             //System.out.println("Edad " + archivo.readInt());
+            //leer fecha
+            archivo.seek(pos + 132);
+            txtFecha.setText(archivo.readUTF());
 
-                //leer fecha
-                archivo.seek(132);
-                txtFecha.setText(archivo.readUTF());
-             //System.out.println("Fecha Nacimiento " + archivo.readUTF());
+            //leer sueldo
+            archivo.seek(pos + 144);
+            txtSueldo.setText(String.valueOf(archivo.readDouble()).trim());
 
-                //leer sueldo
-                archivo.seek(144);
-                txtSueldo.setText(String.valueOf(archivo.readDouble()));
-                //System.out.println("Sueldo " + archivo.readDouble());
-
-                //termina la conexion de java con el archivo
-                archivo.close();
-
-            } else if (num >= 1) {
-                /*
-                 //leer nombre
-                 archivo.seek(Integer.parseInt(String.valueOf(152)) * Integer.parseInt(String.valueOf(num)));
-                 txtNombre.setText(archivo.readUTF());
-                 //System.out.println("Nombre " + archivo.readUTF());
-
-                 //leer apellido
-                 archivo.seek(Integer.parseInt(String.valueOf(52)) * Integer.parseInt(String.valueOf(num)));
-                 txtApellido.setText(archivo.readUTF());
-                 //System.out.println("Apellido " + archivo.readUTF());
-
-                 //leer cedula 
-                 archivo.seek(Integer.parseInt(String.valueOf(104)) * Integer.parseInt(String.valueOf(num)));
-                 txtCedula.setText(archivo.readUTF());
-                 //System.out.println("Cedula " + archivo.readUTF());
-
-                 //leer celular
-                 archivo.seek(Integer.parseInt(String.valueOf(116)) * Integer.parseInt(String.valueOf(num)));
-                 txtCelular.setText(archivo.readUTF());
-                 //System.out.println("Celular " + archivo.readUTF());
-
-                 //leer edad
-                 archivo.seek(Integer.parseInt(String.valueOf(128)) * Integer.parseInt(String.valueOf(num)));
-                 txtEdad.setText(String.valueOf(archivo.readInt()));
-                 //System.out.println("Edad " + archivo.readInt());
-
-                 //leer fecha
-                 archivo.seek(Integer.parseInt(String.valueOf(132)) * Integer.parseInt(String.valueOf(num)));
-                 txtFecha.setText(archivo.readUTF());
-                 //System.out.println("Fecha Nacimiento " + archivo.readUTF());
-
-                 //leer sueldo
-                 archivo.seek(Integer.parseInt(String.valueOf(144)) * Integer.parseInt(String.valueOf(num)));
-                 txtSueldo.setText(String.valueOf(archivo.readDouble()));
-                 //System.out.println("Sueldo " + archivo.readDouble());
-
-                 //termina la conexion de java con el archivo
-                 archivo.close();*/
-
-                int pos = Integer.parseInt(txtCod.getText());
-                contPer.read(pos);
-                txtApellido.setText(persona.getApellido());
-                txtCedula.setText(persona.getCedula());
-                txtCelular.setText(persona.getCelular());
-                txtEdad.setText(String.valueOf(persona.getEdad()));
-                txtFecha.setText(persona.getFechaNac());
-                txtNombre.setText(persona.getNombre());
-                txtSueldo.setText(String.valueOf(persona.getSueldo()));
-            }
+            //termina la conexion de java con el archivo
+            archivo.close();
 
         } catch (FileNotFoundException error) {
 
-            System.err.println("Archivo no encontrado");
+            System.err.println("Archivo no encontrado " + error.toString());
 
         } catch (IOException error1) {
 
-            System.err.println("Error de lectura");
+            System.err.println("Error de lectura " + error1.toString());
 
         }
-
-        ///////////////////////////////////////////////////////////////////////////////////////
 
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -412,10 +350,10 @@ public class Buscar extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPos;
     private javax.swing.JTextField txtSueldo;
     // End of variables declaration//GEN-END:variables
 }

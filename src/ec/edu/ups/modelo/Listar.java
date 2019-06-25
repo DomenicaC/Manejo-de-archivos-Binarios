@@ -6,7 +6,13 @@
 package ec.edu.ups.modelo;
 
 import ec.edu.ups.controlador.ControladorPersona;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -19,6 +25,7 @@ public class Listar extends javax.swing.JInternalFrame {
      * Creates new form Listar
      */
     public static String x;
+    DefaultTableModel modelo;
     private ControladorPersona contPer;
 
     public Listar(ControladorPersona contPer) {
@@ -32,23 +39,78 @@ public class Listar extends javax.swing.JInternalFrame {
         setLocation(a / 2, b / 2);
         setVisible(true);
         llenarDatos();
+
     }
 
     public void llenarDatos() {
-        DefaultTableModel modelo = (DefaultTableModel) tblPer.getModel();
-        Set<Persona> lista = contPer.getLista();
-        for (Persona per : lista) {
-            Object[] datos = {
-                per.getNombre(),
-                per.getApellido(),
-                per.getCedula(),
-                per.getCelular(),
-                per.getEdad(),
-                per.getFechaNac(),
-                per.getSueldo()};
 
-            modelo.addRow(datos);
+        modelo = (DefaultTableModel) tblPer.getModel();
+
+        int i = 0;
+        int j = 0;
+        int pos;
+
+        while (j == 0) {
+
+            try {
+
+                String ruta = "archivo.ups";
+                RandomAccessFile archivo = new RandomAccessFile(ruta, "r");
+
+                pos = i * 152;
+
+                //leer nombre
+                archivo.seek(pos);
+                String nombre = archivo.readUTF().trim();
+
+                //leer apellido
+                archivo.seek(pos + 52);
+                String apellido = archivo.readUTF().trim();
+
+                //leer cedula 
+                archivo.seek((i * 152) + 104);
+                String cedula = archivo.readUTF();
+
+                //leer celular
+                archivo.seek(pos + 116);
+                String celular = archivo.readUTF();
+
+                //leer edad
+                archivo.seek(pos + 128);
+                int edad = archivo.readInt();
+
+                //leer fecha
+                archivo.seek(pos + 132);
+                String fecha = archivo.readUTF();
+
+                //leer sueldo
+                archivo.seek(pos + 144);
+                double sueldo = archivo.readDouble();
+
+                Object[] datos = {
+                    i,
+                    nombre,
+                    apellido,
+                    cedula,
+                    celular,
+                    edad,
+                    fecha,
+                    sueldo,
+                    i};
+                modelo.addRow(datos);
+                i++;
+            } catch (FileNotFoundException error) {
+
+                JOptionPane.showMessageDialog(this, "Archivo no encontrado " + error);
+
+            } catch (IOException ex) {
+                j = 1;
+                //JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+
+            }
+
         }
+
     }
 
     /**
@@ -63,6 +125,9 @@ public class Listar extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblPer = new javax.swing.JTable();
 
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
             }
@@ -83,13 +148,17 @@ public class Listar extends javax.swing.JInternalFrame {
 
         tblPer.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-
+                {null, "", "", "", "", "", "", ""}
             },
             new String [] {
-                "Nombre", "Apellido", "Cedula", "Celular", "Edad", "Fecha Nacimiento", "Sueldo"
+                "Posicion", "Nombre", "Apellido", "Cedula", "Celular", "Edad", "Fecha Nacimiento", "Sueldo"
             }
         ));
         jScrollPane1.setViewportView(tblPer);
+        if (tblPer.getColumnModel().getColumnCount() > 0) {
+            tblPer.getColumnModel().getColumn(0).setResizable(false);
+            tblPer.getColumnModel().getColumn(2).setResizable(false);
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,14 +174,16 @@ public class Listar extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 267, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
+
         x = null;
+
     }//GEN-LAST:event_formInternalFrameClosing
 
 

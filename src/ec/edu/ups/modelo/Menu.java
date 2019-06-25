@@ -22,6 +22,8 @@ public class Menu extends javax.swing.JFrame {
     private Crear crearPer;
     private Buscar buscarPer;
     private Modificar modPer;
+    private Eliminar eliPer;
+    private Listar listarPer;
 
     public Menu() {
         initComponents();
@@ -41,10 +43,10 @@ public class Menu extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         itemCrear = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
+        itemBuscar = new javax.swing.JMenuItem();
+        itemMod = new javax.swing.JMenuItem();
+        itemEli = new javax.swing.JMenuItem();
+        itemListar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,31 +61,41 @@ public class Menu extends javax.swing.JFrame {
         });
         jMenu1.add(itemCrear);
 
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Buscar");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        itemBuscar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_R, java.awt.event.InputEvent.CTRL_MASK));
+        itemBuscar.setText("Buscar");
+        itemBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                itemBuscarActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu1.add(itemBuscar);
 
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Modificar");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        itemMod.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_U, java.awt.event.InputEvent.CTRL_MASK));
+        itemMod.setText("Modificar");
+        itemMod.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                itemModActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(itemMod);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Eliminar");
-        jMenu1.add(jMenuItem4);
+        itemEli.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_D, java.awt.event.InputEvent.CTRL_MASK));
+        itemEli.setText("Eliminar");
+        itemEli.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemEliActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemEli);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText("Listar");
-        jMenu1.add(jMenuItem5);
+        itemListar.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_L, java.awt.event.InputEvent.CTRL_MASK));
+        itemListar.setText("Listar");
+        itemListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                itemListarActionPerformed(evt);
+            }
+        });
+        jMenu1.add(itemListar);
 
         menuBar.add(jMenu1);
 
@@ -134,7 +146,7 @@ public class Menu extends javax.swing.JFrame {
 
     }//GEN-LAST:event_itemCrearActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void itemBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemBuscarActionPerformed
         
         String x = buscarPer.x;
 
@@ -162,9 +174,9 @@ public class Menu extends javax.swing.JFrame {
 
         }
         
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_itemBuscarActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void itemModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemModActionPerformed
         
         String x = modPer.x;
 
@@ -192,7 +204,67 @@ public class Menu extends javax.swing.JFrame {
 
         }
         
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_itemModActionPerformed
+
+    private void itemListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemListarActionPerformed
+        
+        String x = listarPer.x;
+
+        try {
+
+            if (x == null) {
+
+                if (listarPer == null || listarPer.isVisible() == false) {
+
+                    listarPer = new Listar(contPer);
+                    DesktopPane.add(listarPer);
+
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "La ventana ya esta abierta");
+
+            }
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            System.err.println("Error " + ex.toString());
+
+        }
+        
+    }//GEN-LAST:event_itemListarActionPerformed
+
+    private void itemEliActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_itemEliActionPerformed
+        
+        String x = eliPer.x;
+
+        try {
+
+            if (x == null) {
+
+                if (eliPer == null || eliPer.isVisible() == false) {
+
+                    eliPer = new Eliminar(contPer);
+                    DesktopPane.add(eliPer);
+
+                }
+
+            } else {
+
+                JOptionPane.showMessageDialog(this, "La ventana ya esta abierta");
+
+            }
+
+        } catch (Exception ex) {
+
+            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            System.err.println("Error " + ex.toString());
+
+        }
+        
+    }//GEN-LAST:event_itemEliActionPerformed
 
     /**
      * @param args the command line arguments
@@ -232,12 +304,12 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JDesktopPane DesktopPane;
+    private javax.swing.JMenuItem itemBuscar;
     private javax.swing.JMenuItem itemCrear;
+    private javax.swing.JMenuItem itemEli;
+    private javax.swing.JMenuItem itemListar;
+    private javax.swing.JMenuItem itemMod;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 

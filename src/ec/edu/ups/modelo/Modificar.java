@@ -9,6 +9,8 @@ import ec.edu.ups.controlador.ControladorPersona;
 import ec.edu.ups.excepciones.ValidarApellido;
 import ec.edu.ups.excepciones.ValidarCedula;
 import ec.edu.ups.excepciones.ValidarCelular;
+import ec.edu.ups.excepciones.ValidarDosApellidos;
+import ec.edu.ups.excepciones.ValidarDosNombres;
 import ec.edu.ups.excepciones.ValidarEdad;
 import ec.edu.ups.excepciones.ValidarFechaNac;
 import ec.edu.ups.excepciones.ValidarNombre;
@@ -16,6 +18,8 @@ import ec.edu.ups.excepciones.ValidarSueldo;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,12 +31,13 @@ public class Modificar extends javax.swing.JInternalFrame {
     /**
      * Creates new form Modificar
      */
-    private Persona persona;
     public static String x;
     private ControladorPersona contPer;
+    int pos;
 
     public Modificar(ControladorPersona contPer) {
         initComponents();
+
         this.contPer = contPer;
         x = "x";
         int a = Menu.DesktopPane.getWidth() - this.getWidth();
@@ -67,7 +72,7 @@ public class Modificar extends javax.swing.JInternalFrame {
         txtSueldo = new javax.swing.JTextField();
         txtFecha = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtCod = new javax.swing.JTextField();
+        txtPos = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         btnMod = new javax.swing.JButton();
@@ -151,7 +156,7 @@ public class Modificar extends javax.swing.JInternalFrame {
         jLabel3.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         jLabel3.setText("Apellido");
 
-        txtCod.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
+        txtPos.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
 
         jLabel8.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
         jLabel8.setText("Sueldo");
@@ -203,7 +208,7 @@ public class Modificar extends javax.swing.JInternalFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel9)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtPos, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addComponent(btnBuscar))
                             .addGroup(layout.createSequentialGroup()
@@ -236,7 +241,7 @@ public class Modificar extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscar))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -284,84 +289,62 @@ public class Modificar extends javax.swing.JInternalFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
 
         String ruta = "archivo.ups";
-        persona = new Persona();
+        Persona persona = new Persona();
 
         try {
-
+            System.out.println("\n");
             //no existe pasarela
             RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
 
             long tam = archivo.length();
             System.out.println("Tamaño archivo " + tam);
 
-            int num = Integer.parseInt(txtCod.getText());
-            System.out.println(num + " num");
+            pos = Integer.parseInt(txtPos.getText()) * 152;
+            System.out.println(pos + " num");
 
-            if (num == 0) {
+            archivo.seek(pos);
 
-                //leer nombre
-                archivo.seek(0);
-                txtNombre.setText(archivo.readUTF());
-                //System.out.println("Nombre " + archivo.readUTF());
+            //leer nombre
+            archivo.seek(pos);
+            txtNombre.setText(archivo.readUTF().trim());
 
-                //leer apellido
-                archivo.seek(52);
-                txtApellido.setText(archivo.readUTF());
-                //System.out.println("Apellido " + archivo.readUTF());
+            //leer apellido
+            archivo.seek(pos + 52);
+            txtApellido.setText(archivo.readUTF().trim());
 
-                //leer cedula
-                archivo.seek(104);
-                txtCedula.setText(archivo.readUTF());
-                //System.out.println("Cedula " + archivo.readUTF());
+            //leer cedula 
+            archivo.seek((Integer.parseInt(txtPos.getText()) * 152) + 104);
+            txtCedula.setText(archivo.readUTF().trim());
 
-                //leer celular
-                archivo.seek(116);
-                txtCelular.setText(archivo.readUTF());
-                //System.out.println("Celular " + archivo.readUTF());
+            //leer celular
+            archivo.seek(pos + 116);
+            txtCelular.setText(archivo.readUTF().trim());
 
-                //leer edad
-                archivo.seek(128);
-                txtEdad.setText(String.valueOf(archivo.readInt()));
-                //System.out.println("Edad " + archivo.readInt());
+            //leer edad
+            archivo.seek(pos + 128);
+            txtEdad.setText(String.valueOf(archivo.readInt()).trim());
 
-                //leer fecha
-                archivo.seek(132);
-                txtFecha.setText(archivo.readUTF());
-                //System.out.println("Fecha Nacimiento " + archivo.readUTF());
+            //leer fecha
+            archivo.seek(pos + 132);
+            txtFecha.setText(archivo.readUTF().trim());
 
-                //leer sueldo
-                archivo.seek(144);
-                txtSueldo.setText(String.valueOf(archivo.readDouble()));
-                //System.out.println("Sueldo " + archivo.readDouble());
+            //leer sueldo
+            archivo.seek(pos + 144);
+            txtSueldo.setText(String.valueOf(archivo.readDouble()).trim());
 
-                //termina la conexion de java con el archivo
-                archivo.close();
-
-            } else if (num >= 1) {
-
-                int pos = Integer.parseInt(txtCod.getText());
-                contPer.read(pos);
-                txtApellido.setText(persona.getApellido());
-                txtCedula.setText(persona.getCedula());
-                txtCelular.setText(persona.getCelular());
-                txtEdad.setText(String.valueOf(persona.getEdad()));
-                txtFecha.setText(persona.getFechaNac());
-                txtNombre.setText(persona.getNombre());
-                txtSueldo.setText(String.valueOf(persona.getSueldo()));
-
-            }
+            //termina la conexion de java con el archivo
+            archivo.close();
 
         } catch (FileNotFoundException error) {
 
-            System.err.println("Archivo no encontrado");
+            System.err.println("Archivo no encontrado " + error.toString());
 
         } catch (IOException error1) {
 
-            System.err.println("Error de lectura");
+            System.err.println("Error de lectura " + error1.toString());
 
         }
 
-        ///////////////////////////////////////////////////////////////////////////////////////
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -379,71 +362,98 @@ public class Modificar extends javax.swing.JInternalFrame {
     private void btnModActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModActionPerformed
 
         String ruta = "archivo.ups";
-        persona = new Persona();
+        Persona persona = new Persona();
+        String nombre = txtNombre.getText();
+         String apellido =txtApellido.getText();
 
         try {
 
             RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
 
-            persona.setNombre(txtNombre.getText().trim());
-            persona.setApellido(txtApellido.getText().trim());
-            persona.setCedula(txtCedula.getText().trim());
-            persona.setEdad(Integer.parseInt(txtEdad.getText().trim()));
-            persona.setFechaNac(txtFecha.getText().trim());
-            persona.setSueldo(Double.parseDouble(txtSueldo.getText().trim()));
+            persona.setNombre(txtNombre.getText());
+            persona.setApellido(txtApellido.getText());
+            persona.setCedula(txtCedula.getText());
+            persona.setEdad(Integer.parseInt(txtEdad.getText()));
+            persona.setFechaNac(txtFecha.getText());
+            persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
             persona.setCelular(txtCelular.getText());
 
-            //txtNombre.setText(persona.getNombre());
+            pos = Integer.parseInt(txtPos.getText());
+
             System.out.println(txtNombre.getText() + " " + txtApellido.getText() + " " + txtCedula.getText() + " " + Integer.parseInt(txtEdad.getText()) + " " + txtFecha.getText() + " " + Double.parseDouble(txtSueldo.getText()) + " " + txtCelular.getText());
+            
+            //if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
 
-            if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
-                JOptionPane.showMessageDialog(this, "Persona Creada");
-
-                archivo.seek(archivo.length());
-                archivo.writeUTF(persona.getNombre());
-                archivo.writeUTF(persona.getApellido());
-                archivo.writeUTF(persona.getCedula());
-                archivo.writeUTF(persona.getCelular());
-                archivo.writeInt(persona.getEdad());
-                archivo.writeUTF(persona.getFechaNac());
-                archivo.writeDouble(persona.getSueldo());
-                contPer.update(persona);
-                archivo.close();
-
-                txtApellido.setText("");
-                txtCedula.setText("");
-                txtCelular.setText("");
-                txtEdad.setText("");
-                txtFecha.setText("");
-                txtNombre.setText("");
-                txtSueldo.setText("");
-
-            } else {
-
-                JOptionPane.showMessageDialog(this, "No");
+            archivo.seek(archivo.length());
+            archivo.seek(pos);
+            for (int i = nombre.length() + 1; i <= 50; i++) {
+                nombre = nombre.substring(0) + " ";
 
             }
+            archivo.writeUTF(nombre);
+            
+            
+            for (int i = apellido.length() + 1; i <= 50; i++) {
+                apellido = apellido.substring(0) + " ";
 
-        } catch (ValidarNombre | ValidarApellido | ValidarCedula | ValidarEdad | ValidarFechaNac | ValidarSueldo | ValidarCelular nom) {
+            }
+            
+            archivo.writeUTF(apellido);
+            
 
-            JOptionPane.showMessageDialog(this, "Error " + nom.toString());
+            archivo.writeUTF(persona.getCedula());
+            archivo.writeUTF(persona.getCelular());
+            archivo.writeInt(persona.getEdad());
+            archivo.writeUTF(persona.getFechaNac());
+            archivo.writeDouble(persona.getSueldo());
+            JOptionPane.showMessageDialog(this, "Persona Modificada");
+            archivo.close();
 
-        } catch (FileNotFoundException e) {
+            /*} else {
 
-            JOptionPane.showMessageDialog(this, "Error " + e.toString());
+             JOptionPane.showMessageDialog(this, "Persona no modificada");
 
+             }*/
+        
         } catch (IOException ex) {
 
             JOptionPane.showMessageDialog(this, "Error " + ex.toString());
 
+        } catch (ValidarNombre ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarDosNombres ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarApellido ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarDosApellidos ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarCedula ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarEdad ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarFechaNac ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarSueldo ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ValidarCelular ex) {
+            Logger.getLogger(Modificar.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        txtApellido.setText("");
+        txtCedula.setText("");
+        txtCelular.setText("");
+        txtEdad.setText("");
+        txtFecha.setText("");
+        txtNombre.setText("");
+        txtSueldo.setText("");
 
     }//GEN-LAST:event_btnModActionPerformed
 
     private void formInternalFrameClosing(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosing
-        x = null;
-    }//GEN-LAST:event_formInternalFrameClosing
 
+        x = null;
+
+    }//GEN-LAST:event_formInternalFrameClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
@@ -461,10 +471,10 @@ public class Modificar extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtPos;
     private javax.swing.JTextField txtSueldo;
     // End of variables declaration//GEN-END:variables
 }

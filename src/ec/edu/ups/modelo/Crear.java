@@ -9,6 +9,8 @@ import ec.edu.ups.controlador.ControladorPersona;
 import ec.edu.ups.excepciones.ValidarApellido;
 import ec.edu.ups.excepciones.ValidarCedula;
 import ec.edu.ups.excepciones.ValidarCelular;
+import ec.edu.ups.excepciones.ValidarDosApellidos;
+import ec.edu.ups.excepciones.ValidarDosNombres;
 import ec.edu.ups.excepciones.ValidarEdad;
 import ec.edu.ups.excepciones.ValidarFechaNac;
 import ec.edu.ups.excepciones.ValidarNombre;
@@ -73,8 +75,6 @@ public class Crear extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         btnCrear = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jLabel9 = new javax.swing.JLabel();
-        txtCod = new javax.swing.JTextField();
 
         addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
             public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
@@ -158,11 +158,6 @@ public class Crear extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
-        jLabel9.setText("Codigo");
-
-        txtCod.setFont(new java.awt.Font("Rockwell", 1, 18)); // NOI18N
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -214,23 +209,14 @@ public class Crear extends javax.swing.JInternalFrame {
                                 .addGap(63, 63, 63)
                                 .addComponent(btnCancelar)
                                 .addGap(74, 74, 74)))
-                        .addGap(21, 21, 21))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel9)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120))))
+                        .addGap(21, 21, 21))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(txtCod, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
@@ -279,26 +265,33 @@ public class Crear extends javax.swing.JInternalFrame {
 
         String ruta = "archivo.ups";
         persona = new Persona();
+        String nombre = txtNombre.getText();
+        String apellido = txtApellido.getText();
 
         try {
 
             RandomAccessFile archivo = new RandomAccessFile(ruta, "rw");
 
-            persona.setNombre(txtNombre.getText().trim());
-            persona.setApellido(txtApellido.getText().trim());
-            persona.setCedula(txtCedula.getText().trim());
-            persona.setEdad(Integer.parseInt(txtEdad.getText().trim()));
-            persona.setFechaNac(txtFecha.getText().trim());
-            persona.setSueldo(Double.parseDouble(txtSueldo.getText().trim()));
+            System.out.println("Tamaño archivo: " + archivo.length());
+
+            archivo.seek(archivo.length());
+            persona.setNombre(nombre);
+            persona.setApellido(apellido);
+            persona.setCedula(txtCedula.getText());
+            persona.setEdad(Integer.parseInt(txtEdad.getText()));
+            persona.setFechaNac(txtFecha.getText());
+            persona.setSueldo(Double.parseDouble(txtSueldo.getText()));
             persona.setCelular(txtCelular.getText());
 
             //txtNombre.setText(persona.getNombre());
             System.out.println(txtNombre.getText() + " " + txtApellido.getText() + " " + txtCedula.getText() + " " + Integer.parseInt(txtEdad.getText()) + " " + txtFecha.getText() + " " + Double.parseDouble(txtSueldo.getText()) + " " + txtCelular.getText());
 
             if (persona.getNombre() != null && persona.getApellido() != null && persona.getCedula() != null && persona.getEdad() != 0 && persona.getFechaNac() != null && persona.getSueldo() != 0 && persona.getCelular() != null) {
+
                 JOptionPane.showMessageDialog(this, "Persona Creada");
 
                 archivo.seek(archivo.length());
+
                 archivo.writeUTF(persona.getNombre());
                 archivo.writeUTF(persona.getApellido());
                 archivo.writeUTF(persona.getCedula());
@@ -306,7 +299,7 @@ public class Crear extends javax.swing.JInternalFrame {
                 archivo.writeInt(persona.getEdad());
                 archivo.writeUTF(persona.getFechaNac());
                 archivo.writeDouble(persona.getSueldo());
-                contPer.create(persona);
+
                 archivo.close();
 
                 txtApellido.setText("");
@@ -319,23 +312,22 @@ public class Crear extends javax.swing.JInternalFrame {
 
             } else {
 
-                JOptionPane.showMessageDialog(this, "No");
+                JOptionPane.showMessageDialog(this, "Persona no creada");
 
             }
 
-        } catch (ValidarNombre | ValidarApellido | ValidarCedula | ValidarEdad | ValidarFechaNac | ValidarSueldo | ValidarCelular nom) {
+        } catch (ValidarDosNombres | ValidarDosApellidos | ValidarNombre | ValidarApellido | ValidarCedula | ValidarEdad | ValidarFechaNac | ValidarSueldo | ValidarCelular | FileNotFoundException nom) {
 
             JOptionPane.showMessageDialog(this, "Error " + nom.toString());
 
-        } catch (FileNotFoundException e) {
-
-            JOptionPane.showMessageDialog(this, "Error " + e.toString());
-
         } catch (IOException ex) {
 
-            JOptionPane.showMessageDialog(this, "Error " + ex.toString());
+            JOptionPane.showMessageDialog(this, "Error de escritura " + ex.toString());
 
+        } catch (Exception ex1) {
+            JOptionPane.showMessageDialog(this, "Error " + ex1);
         }
+
 
     }//GEN-LAST:event_btnCrearActionPerformed
 
@@ -365,11 +357,9 @@ public class Crear extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JTextField txtApellido;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtCelular;
-    private javax.swing.JTextField txtCod;
     private javax.swing.JTextField txtEdad;
     private javax.swing.JTextField txtFecha;
     private javax.swing.JTextField txtNombre;
